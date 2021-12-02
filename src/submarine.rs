@@ -4,32 +4,35 @@ pub struct Submarine {
     aim: i32,
 }
 
+struct Command<'a> {
+    command: &'a str,
+    value: i32
+}
+
 impl Submarine {
     pub fn new() -> Submarine {
         Submarine { x: 0, y: 0, aim: 0 }
     }
 
-    pub fn move_sub(&mut self, command: &str){
-        let comm: Vec<&str> = command.split(' ').collect();
-        let distance: i32 = comm[1].parse().expect("not a number");
-        match comm[0] {
-            "forward" => self.move_x(distance),
-            "down" => self.move_y(distance),
-            "up" => self.move_y(-distance),
+    pub fn move_sub(&mut self, input: &str){
+        let c: Command = parse_command(input);
+        match c.command {
+            "forward" => self.move_x(c.value),
+            "down" => self.move_y(c.value),
+            "up" => self.move_y(-c.value),
             _ => ()
         }
     }
 
-    pub fn move_sub_aim(&mut self, command: &str){
-        let comm: Vec<&str> = command.split(' ').collect();
-        let value: i32 = comm[1].parse().expect("not a number");
-        match comm[0] {
+    pub fn move_sub_aim(&mut self, input: &str){
+        let c: Command = parse_command(input);
+        match c.command {
             "forward" => {
-                self.move_x(value);
-                self.move_y(value * self.aim);
+                self.move_x(c.value);
+                self.move_y(c.value * self.aim);
             },
-            "down" => self.change_aim(value),
-            "up" => self.change_aim(-value),
+            "down" => self.change_aim(c.value),
+            "up" => self.change_aim(-c.value),
             _ => ()
         }
     }
@@ -52,5 +55,13 @@ impl Submarine {
 
     pub fn get_depth(&self) -> i32 {
         self.y
+    }
+}
+
+fn parse_command(command: &str) -> Command {
+    let comm: Vec<&str> = command.split(' ').collect();
+    Command {
+        command: comm[0],
+        value: comm[1].parse().expect("Not a number")
     }
 }
