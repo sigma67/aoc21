@@ -1,5 +1,3 @@
-use std::str::Lines;
-
 pub fn part1(input: String) -> u32 {
     let lines = parse_input(input);
     let gamma_seq = compute_gamma_seq(lines);
@@ -34,37 +32,40 @@ fn compute_gamma_seq(lines: Vec<Vec<u8>>) -> [bool; 12]{
         }
         total += 1;
     }
-    let seq: [bool; 12] = counts.map(|c| total - c > total / 2);
-    seq
+    counts.map(|c| c > total / 2)
 }
 
 fn get_support_rating(lines: &Vec<Vec<u8>>, most_common: bool) -> u32 {
     let mut positions: [u8; 1000] = [1; 1000];
     for i in 0..lines[0].len() {
         let total = positions.iter().map(|&b| b as u16).sum::<u16>();
-        if total == 1 { println!{"positions {:?}", positions}; break; }
+        if total == 1 { break; }
         let mut count: u16 = 0;
+
+        //count ones in relevant positions
         for (j, line) in lines.iter().enumerate(){
             count += (*line.get(i).unwrap() & positions[j]) as u16;
         }
+
+        //choose preferred depending on total count
         let selected: u8 = match most_common {
             true => (count as f32  >= total as f32 / 2.0) as u8,
             false => ((count as f32) < total as f32 / 2.0) as u8
         };
-        println!("selected is {}. 0 - {}, 1 - {}", selected, total - count, count);
 
+        // update relevant positions
         for (j, line) in lines.iter().enumerate() {
             positions[j] = positions[j] & (line[i] == selected) as u8;
         }
     }
+    
+    //compute rating
     let mut rating: u32 = 0;
     for (k, p) in positions.iter().enumerate(){
         if *p == 1 as u8 {
-            println!("{:?}", lines[k]);
             rating = lines[k].iter().fold(
                 0, |gamma, &bit| (gamma << 1) ^ bit as u32
             );
-            println!("{}", rating)
         }
     }
     rating
