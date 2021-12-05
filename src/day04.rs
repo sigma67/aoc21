@@ -1,5 +1,3 @@
-use std::io::Lines;
-
 pub fn part1(input: String) -> u32 {
     get_winner(input, true)
 }
@@ -35,7 +33,10 @@ pub fn get_winner(input: String, first: bool) -> u32 {
 
     for draw in draws{
         for (b, board) in boards.iter().enumerate() {
-            let match_index = board.iter().position((|&r| r == draw));
+            if wins[b] == 1 {
+                continue;
+            }
+            let match_index = board.iter().position(|&r| r == draw);
             match match_index {
                 Some(match_index) => drawn[b][match_index] = 1,
                 None => continue
