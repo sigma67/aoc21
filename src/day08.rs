@@ -1,26 +1,26 @@
 use std::collections::HashMap;
 
-pub fn part1(input: String) -> u32 {
+pub fn part1(input: String) -> u64 {
     count_unique(input)
 }
 
-pub fn part2(input: String) -> u32 {
+pub fn part2(input: String) -> u64 {
     decode_input(input)
 }
 
-pub fn count_unique(input: String) -> u32 {
+pub fn count_unique(input: String) -> u64 {
     let unique: [u8; 4] = [2,3,4,7];
     let mut count = 0;
     for line in input.lines(){
         let output = line.split(" | ").collect::<Vec<&str>>()[1];
         println!("{}", output);
         count += output.split(" ")
-            .fold(0, |sum, x| sum + unique.contains(&(x.len() as u8)) as u32 );
+            .fold(0, |sum, x| sum + unique.contains(&(x.len() as u8)) as u64 );
     }
     count
 }
 
-pub fn decode_input(input: String) -> u32 {
+pub fn decode_input(input: String) -> u64 {
     let mut mapping: [i8; 7];
     let mut sum = 0;
     for line in input.lines() {
@@ -49,14 +49,14 @@ pub fn decode_input(input: String) -> u32 {
         }
         let mut number = 0;
         for (i, s) in output.iter().enumerate(){
-            number += 10_u32.pow(3-(i as u32))*string_to_number(s, mapping);
+            number += 10_u64.pow(3-(i as u32))*string_to_number(s, mapping);
         }
         sum += number;
     }
     sum
 }
 
-fn string_to_number(input: &str, mapping: [i8; 7]) -> u32 {
+fn string_to_number(input: &str, mapping: [i8; 7]) -> u64 {
     let mut chars: Vec<char> = Vec::new();
     for c in input.chars(){
         let i = mapping[((c as u8) - 97) as usize];

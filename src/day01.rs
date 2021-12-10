@@ -1,4 +1,4 @@
-pub fn part1(input: String) -> u32 {
+pub fn part1(input: String) -> u64 {
     let lines = input.lines();
     let mut count: u32 = 0;
     let mut prev: Option<u32> = None;
@@ -11,10 +11,10 @@ pub fn part1(input: String) -> u32 {
         count += (val > prev.unwrap()) as u32;
         prev = Some(val);
     }
-    count
+    count as u64
 }
 
-pub fn part2(input: String) -> u32 {
+pub fn part2(input: String) -> u64 {
     let lines = input.lines();
     let mut window: [u32; 3] = [0; 3];
     let mut count: u32 = 0;
@@ -30,5 +30,5 @@ pub fn part2(input: String) -> u32 {
         count += (sum_current > sum) as u32;
         sum = sum_current;
     }
-    count
+    count as u64
 }

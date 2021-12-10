@@ -1,11 +1,11 @@
 use std::cmp::min;
 use std::collections::HashMap;
 
-pub fn part1(input: String) -> u32 {
+pub fn part1(input: String) -> u64 {
     find_hotspots(input, 100)
 }
 
-pub fn part2(input: String) -> u32 {
+pub fn part2(input: String) -> u64 {
     find_basins(input, 100)
 }
 
@@ -18,20 +18,20 @@ fn parse_input(input: String) -> Vec<u8> {
     map
 }
 
-pub fn find_hotspots(input: String, size:usize) -> u32 {
+pub fn find_hotspots(input: String, size:usize) -> u64 {
     let map = parse_input(input);
-    let sum = map.iter().enumerate().fold(0, | sum: u32, (i, num) | {
+    let sum = map.iter().enumerate().fold(0, | sum: u64, (i, num) | {
         if  (top(i, size) && (*num >= map[i - size]))   ||
             (left(i, size) && (*num >= map[i - 1]))     ||
             (right(i, size) && (*num >= map[i + 1]))    ||
             (bottom(i, size, map.len()) && (*num >= map[i + size]))
             { return sum }
-        sum + (*num as u32) + 1
+        sum + (*num as u64) + 1
     });
     sum
 }
 
-pub fn find_basins(input: String, size:usize) -> u32 {
+pub fn find_basins(input: String, size:usize) -> u64 {
     let map = parse_input(input);
     let mut marker: u16 = 0;
     let mut basin_map: Vec<u16> = vec![0; map.len()];
@@ -46,7 +46,7 @@ pub fn find_basins(input: String, size:usize) -> u32 {
         }
     }
 
-    let mut val = 1_u32;
+    let mut val = 1_u64;
     let mut prev = 0;
     while val > prev {
         for i in 0..basin_map.len() {
@@ -66,9 +66,9 @@ pub fn find_basins(input: String, size:usize) -> u32 {
         let mut map = HashMap::new();
 
         for c in basin_map.iter().filter(|x| **x != 0) {
-            *map.entry(c).or_insert(0) += 1_u32;
+            *map.entry(c).or_insert(0) += 1_u64;
         }
-        let mut values: Vec<u32> = map.into_values().collect::<Vec<u32>>();
+        let mut values = map.into_values().collect::<Vec<u64>>();
         values.sort_by(|a, b| b.cmp(a));
 
         prev = val;

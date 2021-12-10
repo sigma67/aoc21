@@ -1,16 +1,16 @@
-pub fn part1(input: String) -> u32 {
+pub fn part1(input: String) -> u64 {
     let lines = parse_input(input);
     let gamma_seq = compute_gamma_seq(lines);
     let gamma = gamma_seq.iter().fold(
-        0, |gamma, &bit| (gamma << 1) ^ bit as u32
+        0, |gamma, &bit| (gamma << 1) ^ bit as u64
     );
     let delta = gamma_seq.iter().fold(
-        0, |gamma, &bit| (gamma << 1) ^ !bit as u32
+        0, |gamma, &bit| (gamma << 1) ^ !bit as u64
     );
     gamma * delta
 }
 
-pub fn part2(input: String) -> u32 {
+pub fn part2(input: String) -> u64 {
     let lines = parse_input(input);
 
     get_support_rating(&lines, true) * get_support_rating(&lines, false)
@@ -35,7 +35,7 @@ fn compute_gamma_seq(lines: Vec<Vec<u8>>) -> [bool; 12]{
     counts.map(|c| c > total / 2)
 }
 
-fn get_support_rating(lines: &Vec<Vec<u8>>, most_common: bool) -> u32 {
+fn get_support_rating(lines: &Vec<Vec<u8>>, most_common: bool) -> u64 {
     let mut positions: [u8; 1000] = [1; 1000];
     for i in 0..lines[0].len() {
         let total = positions.iter().map(|&b| b as u16).sum::<u16>();
@@ -68,6 +68,6 @@ fn get_support_rating(lines: &Vec<Vec<u8>>, most_common: bool) -> u32 {
             );
         }
     }
-    rating
+    rating as u64
 }
 

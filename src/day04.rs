@@ -1,14 +1,14 @@
-pub fn part1(input: String) -> u32 {
+pub fn part1(input: String) -> u64 {
     get_winner(input, true)
 }
 
-pub fn part2(input: String) -> u32 {
+pub fn part2(input: String) -> u64 {
     get_winner(input, false)
 }
 
 type Board = [u8; 25];
 
-pub fn get_winner(input: String, first: bool) -> u32 {
+pub fn get_winner(input: String, first: bool) -> u64 {
     let lines: Vec<&str> = input.lines().collect();
 
     let draws: Vec<u8> = lines[0].split(',').map(|c| c.parse::<u8>().unwrap()).collect();
@@ -49,7 +49,7 @@ pub fn get_winner(input: String, first: bool) -> u32 {
             if win_condition {
                 println!("{:?}", board);
                 println!("{:?}", drawn[b]);
-                return sum_unchecked(board, &drawn[b]) * draw as u32;
+                return sum_unchecked(board, &drawn[b]) * draw as u64;
             }
         }
     }
@@ -72,9 +72,9 @@ fn check_win(drawn: &[u8]) -> u8 {
     0
 }
 
-fn sum_unchecked(board: &[u8], drawn: &[u8]) -> u32 {
-    board.iter().enumerate().fold(0u32,
+fn sum_unchecked(board: &[u8], drawn: &[u8]) -> u64 {
+    board.iter().enumerate().fold(0u64,
                                   | sum, (i, entry) |
-                                      sum + ((1 - drawn[i]) * entry) as u32
+                                      sum + ((1 - drawn[i]) * entry) as u64
     )
 }

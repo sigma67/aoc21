@@ -1,15 +1,15 @@
 use std::cmp::min;
 use std::cmp::max;
 
-pub fn part1(input: String) -> u32 {
+pub fn part1(input: String) -> u64 {
     find_overlaps(input, 1000, false)
 }
 
-pub fn part2(input: String) -> u32 {
+pub fn part2(input: String) -> u64 {
     find_overlaps(input, 1000, true)
 }
 
-pub fn find_overlaps(input: String, size:usize, diagonals: bool) -> u32{
+pub fn find_overlaps(input: String, size:usize, diagonals: bool) -> u64{
     let mut map: Vec<u8> = vec![0; size * size];
     for line in input.lines(){
         let vent: Vec<usize> = line.replace(" -> ", ",").split(",")
@@ -40,5 +40,5 @@ pub fn find_overlaps(input: String, size:usize, diagonals: bool) -> u32{
             }
         }
     }
-    map.iter().fold(0u32, |sum, val| sum + (*val >= 2) as u32)
+    map.iter().fold(0u64, |sum, val| sum + (*val >= 2) as u64)
 }
