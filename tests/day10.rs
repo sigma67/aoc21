@@ -5,7 +5,7 @@ mod tools;
 fn test_day10_p1() {
     let input = tools::import_test_input(10);
     let result = get_score(input, true);
-    let expected: u32 = 26397;
+    let expected: u64 = 26397;
     assert_eq!(expected, result);
 }
 
@@ -13,6 +13,6 @@ fn test_day10_p1() {
 fn test_day10_p2() {
     let input = tools::import_test_input(10);
     let result = get_score(input, false);
-    let expected: u32 = 288957;
+    let expected: u64 = 288957;
     assert_eq!(expected, result);
 }

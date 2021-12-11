@@ -9,7 +9,7 @@ pub fn part2(input: String) -> u64 {
     find_basins(input, 100)
 }
 
-fn parse_input(input: String) -> Vec<u8> {
+pub fn parse_input(input: String) -> Vec<u8> {
     let mut map: Vec<u8> = Vec::new();
     for line in input.lines() {
         let nums: Vec<u8> = line.chars().map(|c| c.to_digit(10).unwrap() as u8).collect();

@@ -17,8 +17,8 @@ pub fn get_score(input: String, errors: bool) -> u64{
     let mut all_scores: Vec<u64> = Vec::new();
     'outer: for line in input.lines(){
         let mut brackets_line: Vec<usize> = Vec::new();
-        for (i, c) in line.chars().enumerate(){
-            let mut pos = brackets.iter().position(|&x| x == c).unwrap();
+        for c in line.chars(){
+            let pos = brackets.iter().position(|&x| x == c).unwrap();
             if pos < 4 { brackets_line.push(pos); }
             else {
                 let last_opening = brackets_line.pop().unwrap();
@@ -30,10 +30,9 @@ pub fn get_score(input: String, errors: bool) -> u64{
         }
         if !errors {
             let mut score = 0_u64;
-            for i in 0..brackets_line.len(){
-                let last_opening = brackets_line.pop().unwrap();
+            while let Some(element) = brackets_line.pop() {
                 score *= 5;
-                score += (last_opening + 1) as u64;
+                score += (element + 1) as u64;
             }
             all_scores.push(score);
         }
