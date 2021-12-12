@@ -10,6 +10,7 @@ pub fn part2(input: String) -> u64 {
     count_paths(input,true)
 }
 
+// use release build for better performance
 pub fn count_paths(input: String, p2: bool) -> u64 {
     let mut map: HashMap<&str, Vec<&str>> = HashMap::new();
     for line in input.lines(){
@@ -19,32 +20,29 @@ pub fn count_paths(input: String, p2: bool) -> u64 {
         let second = map.entry(caves[1]).or_insert(Vec::new());
         if caves[0] != "start" { second.push(caves[0]); }
     }
-    //let mut paths: Vec<Vec<&str>> = Vec::new();
-    let mut path_count =
-    &map["start"].par_iter().fold(|| 0_u64, |a: u64, x: &&str| {
-        let mut path = vec!["start", x];
+    map["start"].par_iter().fold(|| 0_u64, | a: u64, x: &&str| {
+        let path = vec!["start", x];
         a + generate(&path, &map, p2)
-    }).sum::<u64>();
-    *path_count
+    }).sum::<u64>()
 }
 
 fn generate<'a>(path: &Vec<&'a str>, map: &'a HashMap<&str, Vec<&str>>, p2: bool) -> u64
 {
     let last_entry = path.last().unwrap();
 
-    map[*last_entry].par_iter().fold(|| 0_u64, |a: u64, cave: &&str| {
+    map[*last_entry].par_iter().fold(|| 0_u64, | a: u64, cave: &&str| {
         let mut new_path = path.to_vec();
         let mut path_count = 0_u64;
         let is_illegal = if p2 { //part 2
             check_occurrences(cave, &new_path)
         } else {
-            (is_lowercase(cave) && new_path.contains(cave))
+            is_lowercase(cave) && new_path.contains(cave)
         };
         if is_illegal || *cave == "start" { return 0; }
         new_path.push(cave);
         if *cave == "end" { path_count += 1; }
         else { path_count += generate(&new_path, map, p2) }
-        path_count
+        a + path_count
     }).sum::<u64>()
 }
 
