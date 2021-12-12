@@ -4,4 +4,4 @@
 
 Advent of Code 2021 in Rust
 
-standard library only, no external crates
+standard library only, no external crates except rayon for parallel computations
