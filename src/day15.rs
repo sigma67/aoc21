@@ -2,7 +2,6 @@ use std::cmp::Reverse;
 use std::collections::BinaryHeap;
 use crate::adjacents::get_adjacent_indices;
 use crate::day09::parse_input;
-use crate::day06::add_modular;
 
 pub fn part1(input: String) -> u64 {
     let map = parse_input(input);
@@ -49,7 +48,6 @@ pub fn map5(size: usize, map: Vec<u8>) -> Vec<u8>{
         let line = i % (size5*size) / size5;
         map5[i] = add_modular_no0(map5[line*size5 + i % size5], (i / (size5*size)) as u8, 10);
     }
-    //println!("{:?}", &map5[0..10000]);
     map5
 }
 

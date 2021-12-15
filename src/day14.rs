@@ -18,7 +18,7 @@ pub fn expand(input: String, rounds: u8) -> u64 {
         let (combo, result) = line.split_once(" -> ").unwrap();
         let key = to_key(combo.as_bytes());
         insert_map.insert(key, result.as_bytes()[0]);
-        *combo_counts.entry(key).or_insert(0_u64);
+        combo_counts.entry(key).or_insert(0_u64);
         combos.push(combo.as_bytes());
     }
 
