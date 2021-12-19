@@ -12,7 +12,7 @@ pub fn shoot(input: &str, count: bool) -> u64{
     let split = input.trim().split_once(", ").unwrap();
     let (txmin, txmax) = split_coords(split.0);
     let (tymin, tymax) = split_coords(split.1);
-    let (mut sx, mut sy) = (0, 0);
+    let (sx, sy) = (0, 0);
     let vxmin = find_vxmin(txmin);
     let vxmax = txmax;
     let mut ymax = 0;
@@ -23,10 +23,8 @@ pub fn shoot(input: &str, count: bool) -> u64{
             let mut py = sy;
             let (mut vxc, mut vyc) = (vx, vy);
             let mut is_valid = true;
-            let mut step = 0;
             let mut ymaxc = 0;
             while is_valid {
-                step += 1;
                 px += vxc;
                 py += vyc;
                 ymaxc = max(ymaxc, py);
