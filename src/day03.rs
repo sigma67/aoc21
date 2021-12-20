@@ -1,9 +1,9 @@
+use crate::helpers::to_num;
+
 pub fn part1(input: String) -> u64 {
     let lines = parse_input(input);
     let gamma_seq = compute_gamma_seq(lines);
-    let gamma = gamma_seq.iter().fold(
-        0, |gamma, &bit| (gamma << 1) ^ bit as u64
-    );
+    let gamma = to_num(&gamma_seq);
     let delta = gamma_seq.iter().fold(
         0, |gamma, &bit| (gamma << 1) ^ !bit as u64
     );
@@ -23,8 +23,8 @@ fn parse_input(input: String) -> Vec<Vec<u8>> {
 }
 
 
-fn compute_gamma_seq(lines: Vec<Vec<u8>>) -> [bool; 12]{
-    let mut counts: [u16; 12] = [0; 12];
+fn compute_gamma_seq(lines: Vec<Vec<u8>>) -> Vec<u8>{
+    let mut counts = vec![0; 12];
     let mut total: u16 = 0;
     for line in lines {
         for (i, c) in line.iter().enumerate() {
@@ -32,7 +32,7 @@ fn compute_gamma_seq(lines: Vec<Vec<u8>>) -> [bool; 12]{
         }
         total += 1;
     }
-    counts.map(|c| c > total / 2)
+    counts.iter().map(|c| (*c > total / 2) as u8).collect::<Vec<_>>()
 }
 
 fn get_support_rating(lines: &Vec<Vec<u8>>, most_common: bool) -> u64 {

@@ -1,5 +1,6 @@
 pub mod submarine;
 pub mod adjacents;
+pub mod helpers;
 
 // Days
 pub mod day01;
@@ -20,6 +21,7 @@ pub mod day15;
 pub mod day16;
 pub mod day17;
 pub mod day18;
+pub mod day20;
 
 pub fn noop(_inp: String) -> u64 { return 0 }
 
@@ -45,6 +47,7 @@ pub fn get_day(day: u32) -> (DayFn, DayFn) {
         16 => (day16::part1, day16::part2),
         17 => (day17::part1, day17::part2),
         18 => (day18::part1, day18::part2),
+        20 => (day20::part1, day20::part2),
         _ => {
             println!("Unknown day: {}", day);
             return (noop, noop);
