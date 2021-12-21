@@ -1,4 +1,5 @@
 use std::vec::IntoIter;
+use crate::helpers::to_num;
 
 pub fn part1(input: String) -> u64 {
     decode(&input, true)
@@ -22,9 +23,9 @@ pub fn decode(input: &str, version: bool) -> u64{
     loop {
         let mut bit_size: usize = 0;
         let bs = &mut bit_size;
-        let version = to_num(take_n(i, 3, bs));
+        let version = to_num(&take_n(i, 3, bs));
         version_sum += version;
-        let type_id = to_num(take_n(i, 3, bs)) as u8;
+        let type_id = to_num(&take_n(i, 3, bs)) as u8;
         if type_id == 4 {
             let mut four = take_n(i, 5, bs);
             let mut literal:Vec<u8> = Vec::new();
@@ -33,7 +34,7 @@ pub fn decode(input: &str, version: bool) -> u64{
                 four = take_n(i, 5, bs);
             }
             literal.extend(&four[1..5]);
-            vals[depth].push(to_num(literal));
+            vals[depth].push(to_num(&literal));
             reduce_remaining(depth, &depth_mode, &mut depth_remaining, *bs as u64);
             while depth > 0 && depth_remaining[depth - 1] == 0 {
                 let num = reduce_ops(ops.pop().unwrap(), &vals[depth]);
@@ -47,8 +48,8 @@ pub fn decode(input: &str, version: bool) -> u64{
             ops.push(type_id);
             depth_mode[depth] = take_n(i, 1, bs)[0] as i8;
             let remaining = match depth_mode[depth] {
-                0 => to_num(take_n(i, 15, bs)),
-                _ => to_num(take_n(i, 11, bs))
+                0 => to_num(&take_n(i, 15, bs)),
+                _ => to_num(&take_n(i, 11, bs))
             };
             reduce_remaining(depth, &depth_mode, &mut depth_remaining, *bs as u64);
             depth_remaining[depth] = remaining;
@@ -56,13 +57,6 @@ pub fn decode(input: &str, version: bool) -> u64{
         }
     }
     if version { version_sum } else { vals[0][0] }
-}
-
-
-pub fn to_num(bits: Vec<u8>) -> u64 {
-    bits.iter().fold(
-        0, |gamma, &bit| (gamma << 1) ^ bit as u64
-    )
 }
 
 pub fn hex_to_bits(input: &str) -> Vec<u8> {
