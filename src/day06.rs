@@ -1,3 +1,5 @@
+use crate::helpers;
+
 pub fn part1(input: String) -> u64 {
     populate_laternfish(&input, 80)
 }
@@ -20,26 +22,11 @@ pub fn populate_laternfish(input: &String, days: u16) -> u64 {
     let mut idx:u8 = 0;
     for day in 0..days {
         let baby_fish:u64 = fishes[idx as usize];
-        fishes[sub_modular(idx, 2, 9)] += baby_fish;
+        fishes[helpers::sub_modular(idx, 2, 9)] += baby_fish;
         fishes[idx as usize] = baby_fish;
-        idx = add_modular(idx, 1, 9);
+        idx = helpers::add_modular(idx, 1, 9);
         println!("Day {:?}, {:?} total fish", day, fishes.iter().sum::<u64>());
     }
 
     fishes.iter().sum::<u64>()
-}
-
-pub fn sub_modular(val: u8, sub: u8, base: u8) -> usize {
-    let val = val as i8;
-    let sub = sub as i8;
-    let base = base as i8;
-    let diff = val % base - sub % base;
-    match diff >= 0 {
-        true => (val - sub) as usize,
-        false => (diff + base) as usize
-    }
-}
-
-pub fn add_modular(val: u8, add: u8, base: u8) -> u8 {
-    ((add + val) % base) as u8
 }

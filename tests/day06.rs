@@ -1,5 +1,5 @@
 use advent_of_code::day06::populate_laternfish;
-use advent_of_code::day06::sub_modular;
+use advent_of_code::helpers::sub_modular;
 
 #[test]
 fn test_day06(){
