@@ -1,5 +1,4 @@
-use std::cmp::{min,max};
-use itertools::{Combinations, Itertools};
+use std::cmp::min;
 use regex::Regex;
 
 pub fn part1(input: String) -> u64 {
@@ -24,10 +23,10 @@ pub fn count_cubes(input: String, restrict: bool) -> u64 {
         );
     }
     let len = cuboids.len();
-    let mut volumes: Vec<Cuboid> = Vec::new();
+    let mut volumes: Vec<Cuboid> = Vec::with_capacity(cuboids.len() * cuboids.len());
     for i in 0..len {
         let b = cuboids[i].clone();
-        let mut new_volumes: Vec<Cuboid> = Vec::new();
+        let mut new_volumes: Vec<Cuboid> = Vec::with_capacity(volumes.len());
         for v in &volumes {
             match Cuboid::intersect(&b, v) {
                 Some(mut c) => {
@@ -82,9 +81,8 @@ impl Cuboid {
 
 pub fn intersection_range(a: (i64, i64), b: (i64, i64)) -> Option<(i64, i64)> {
     if a.0 > b.1 || b.0 > a.1 { return None }
-    let mut range = Some(match a.0 {
+    Some(match a.0 {
         x if x <= b.0 => (b.0, min(a.1, b.1)),
         _ => (a.0, min(a.1, b.1))
-    });
-    range
+    })
 }

@@ -1,5 +1,5 @@
 use std::cmp::max;
-use crate::helpers::{add_modular_no0, add_modular};
+use crate::helpers::add_modular_no0;
 use cached::proc_macro::cached;
 use itertools::Itertools;
 
@@ -24,7 +24,7 @@ pub fn play(pos: Vec<u8>, win_score: u16) -> u64 {
     loop {
         for _ in 0..3 {
             rolls += 1;
-            die = add_modular_no0(die, 1, 100);;
+            die = add_modular_no0(die, 1, 100);
             pos[i] = add_modular_no0(pos[i], die, 10);
         }
         scores[i] += pos[i] as u16;

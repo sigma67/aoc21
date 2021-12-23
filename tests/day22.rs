@@ -1,6 +1,5 @@
-use advent_of_code::day22::{part1, Cuboid, intersection_range};
+use advent_of_code::day22::{part1, intersection_range};
 mod tools;
-use itertools::Itertools;
 
 #[test]
 fn test_day22_p1() {
