@@ -48,11 +48,9 @@ pub fn parse(input: String, smallest: bool) -> u64 {
 }
 
 fn alu(c: [i32;3], w: i32, mut z: i32) -> i32 {
-    let (mut x, mut y);
-    x = 1 - ((z % 26 + c[1]) == w) as i32;
+    let x = 1 - ((z % 26 + c[1]) == w) as i32;
     z /= c[0];
-    y = 25 * x + 1;
-    z *= y;
+    z *= 25 * x + 1;
     z += (w + c[2]) * x;
     z
 }
