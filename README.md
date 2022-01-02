@@ -4,6 +4,4 @@
 
 Advent of Code 2021 in Rust
 
-standard library only, no external crates except itertools
-
 Todo: fix day 12 performance
