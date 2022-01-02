@@ -14,6 +14,7 @@ jobs:
         with:
           userid: 1605493                        # your user id, see setup on how to obtain
           session: ${{ secrets.AOC_SESSION }}    # secret containing session code, see setup on how to obtain
+          year: 2021
 
       #         Optional inputs:
       #
